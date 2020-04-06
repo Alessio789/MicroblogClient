@@ -1,0 +1,103 @@
+
+  #header {
+    padding-top: 0px;
+    font-size: 70px;
+    font-family: 'Century Gothic';
+    font-weight: bold;
+    color: black
+  }
+
+  #header:link:active, #header:visited:active {
+    color: black;
+  }
+  
+  #headerBox {
+    background-color: #F4C430;
+  }
+  
+  #welcome {
+    font-family: 'Century Gothic';
+    font-size: 30px;
+  }
+
+  input {
+    max-width: 400px;
+  }
+
+  body {
+    font-family: 'Century Gothic';
+  }
+
+  #registrationContainer{
+    margin-top: 100px;
+  }
+
+  #container {
+    margin-top: 50px;
+    margin-left: 80px
+  }
+
+  #error {
+    font-size: 20px;
+    color: red
+  }
+
+  #h5 {
+    font-weight: bold;
+  }
+  
+@font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic-Bold.woff2') format('woff2'),
+        url('font/CenturyGothic-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic-BoldItalic.woff2') format('woff2'),
+        url('font/CenturyGothic-BoldItalic.woff') format('woff');
+    font-weight: bold;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic.woff2') format('woff2'),
+        url('font/CenturyGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic.woff2') format('woff2'),
+        url('font/CenturyGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic-Italic.woff2') format('woff2'),
+        url('font/CenturyGothic-Italic.woff') format('woff');
+    font-weight: normal;
+    font-style: italic;
+  }
+  
+  @font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic.woff2') format('woff2'),
+        url('font/CenturyGothic.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+  }
+  
+  @font-face {
+    font-family: 'Century Gothic';
+    src: url('font/CenturyGothic-Bold.woff2') format('woff2'),
+        url('font/CenturyGothic-Bold.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+  }
