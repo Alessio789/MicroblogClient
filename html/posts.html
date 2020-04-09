@@ -17,7 +17,7 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
         integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
         crossorigin="anonymous"></script>
-    <script src="../js/showPosts.js"></script>
+    <script src="../js/script.js"></script>
 </head>
 
 <body>
@@ -28,36 +28,23 @@
                     &nbsp;&nbsp;&nbsp;&nbsp;Microblog </a>
             </div>
         </div>
-        <div class="container" id="registrationContainer">
-
-            <form action="addPost.html" method="GET">
-                <button type="submit" class="btn btn-primary">Add post</button> <br> <br>
-            </form>
-            <div id="postContainer">
-                
-                <!--
-                <div class="card">
-                    <h5 class="card-header"
-                        text="${post.user.username} + '\'s post - ' + ${post.dateHour.toString()}">
-                    </h5>
-                    <div class="card-body">
-                        <h5 class="card-title" th:text="${post.title}"></h5>
-                        <p class="card-text" th:text="${post.body}"></p>
-                    </div>
-                    <ul class="list-group list-group-flush">
-                        <li class="list-group-item" th:each="comment : ${commentRepo.findByPost(post)}">
-                            <p> <b th:text="${comment.user.username} + ' - ' + ${comment.dateHour.toString()}"></b>
-                                <span th:text="${comment.body}"> </span></p>
-                        </li>
-                    </ul>
-                    <div class="card-body">
-                        <form th:action="@{/Microblog/Posts/AddComment/} + ${post.id}" method="post">
-                            <button type="submit" class="btn btn-primary" name="commenta">Comment</button>
-                        </form>
-                    </div>
+        <br> <br> <br>
+        <div class="container" id="addPostForm">
+            
+                <div class="form-group">
+                    <label for="titolo"><b>Title</b></label>
+                    <input type="text" class="form-control" name="title" id="title">
+                </div> <br>
+                <div class="form-group">
+                    <label for="body"><b>Body</b></label> <br>
+                    <textarea id="body" name="body" rows="20" cols="70"></textarea>
                 </div>
-            -->
-            </div>
+                <button type="submit" class="btn btn-primary" id="savePost">Submit</button> <br> <br> <br> <br>
+        </div>
+        <div class="container" id="addPostButton">
+            <button type="submit" class="btn btn-primary" id="addPost">Add post</button> <br> <br>
+        </div>
+        <div class="container" id="postContainer">
         </div>
     </div>
 </body>

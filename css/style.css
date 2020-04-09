@@ -45,6 +45,10 @@
   #h5 {
     font-weight: bold;
   }
+
+  #addPostForm {
+    display: none;
+  }
   
 @font-face {
     font-family: 'Century Gothic';
