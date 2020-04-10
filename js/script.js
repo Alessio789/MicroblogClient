@@ -180,7 +180,7 @@ var APP = {
 
     findPostById: function (event) {
         var postId = event.target.id;
-        var address = "http://localhost:8080/Microblog/rest/posts/" + postId
+        var address = "http://localhost:8080/Microblog/rest/posts/" + postId;
         if (window.XMLHttpRequest) {
             xhFindPost = new XMLHttpRequest();
         } else {
