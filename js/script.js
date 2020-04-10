@@ -18,38 +18,33 @@ var APP = {
                 for (var i = 0; i < jsonPosts.length; i++) {
 
                     var post = jsonPosts[i];
-                    if (i != 0) {
-                        var text = postContainer.innerHTML;
-                        postContainer.innerHTML = text +
-                            "<div class='card'>" +
-                            "<h5 class='card-header'>" + post.user.username + "'s post - " + post.dateHour + "</h5>" +
-                            "<div class='card-body'>" +
-                            "<h5 class='card-title'><b>" + post.title + "</b></h5>" +
-                            "<p class='card-text'>" + post.body + "</p>" +
-                            "<ul class='list-group list-group-flush' id='" + post.id + "'></ul>" +
-                            "<div class='card-body'>" +
-                            "<form> <button type='submit' class='btn btn-primary' name='comment'>Comment</button></form>" +
-                            "</div>" +
-                            "</div>";
-                    } else {
-                        postContainer.innerHTML =
-                            "<div class='card'>" +
-                            "<h5 class='card-header'>" + post.user.username + "'s post - " + post.dateHour + "</h5>" +
-                            "<div class='card-body'>" +
-                            "<h5 class='card-title'><b>" + post.title + "</b></h5>" +
-                            "<p class='card-text'>" + post.body + "</p>" +
-                            "<ul class='list-group list-group-flush' id='" + post.id + "'></ul>" +
-                            "<div class='card-body'>" +
-                            "<form> <button type='submit' class='btn btn-primary' name='comment'>Comment</button></form>" +
-                            "</div>" +
-                            "</div>";
+                    var text = postContainer.innerHTML;
+                    if (text == undefined || text == "loading...") {
+                        text = "";
                     }
+                    postContainer.innerHTML = text +
+                        "<div class='card'>" +
+                        "<h5 class='card-header'>" + post.user.username + "'s post - " + post.dateHour + "</h5>" +
+                        "<div class='card-body'>" +
+                        "<h5 class='card-title'><b>" + post.title + "</b></h5>" +
+                        "<p class='card-text'>" + post.body + "</p>" +
+                        "</div>" +
+                        "<ul class='list-group list-group-flush' id='ul" + post.id + "'></ul>" +
+                        "<div class='card-body'>" +
+                        "<textarea name=\"body\" id='textarea" + post.id + "' rows=\"2\" cols=\"40\"></textarea> <br>" +
+                        "<button type='submit' class='btn btn-primary' id='" + post.id + "' name='comment'>Comment</button>" +
+                        "</div>" +
+                        "</div>";
+
+                    $("#" + post.id).on("click", APP.findPostById);
+
+
                     APP.showComments("http://localhost:8080/Microblog/rest/comments", post.id)
                 }
 
             } else {
 
-                document.getElementById("postContainer").innerHTML = "doing..";
+                document.getElementById("postContainer").innerHTML = "loading...";
             }
         }
 
@@ -70,12 +65,13 @@ var APP = {
             if (this.readyState === 4 && this.status === 200) {
 
                 var jsonComments = JSON.parse(this.responseText);
-                var commentContainer = document.getElementById(postId);
+                var commentContainer = document.getElementById("ul" + postId);
 
                 for (var i = 0; i < jsonComments.length; i++) {
                     var comment = jsonComments[i];
                     if (comment.post.id == postId) {
-                        commentContainer.innerHTML =
+                        var text = commentContainer.innerHTML;
+                        commentContainer.innerHTML = text +
                             "<li class='list-group-item'> <p> <b>" + comment.user.username + " - " + comment.dateHour + "</b><br>" + comment.body + "</p> </li>";
                     }
                 }
@@ -106,6 +102,12 @@ var APP = {
             if (this.readyState === 4 && this.status === 201) {
 
                 location.reload();
+
+            } else {
+
+                document.getElementById("addPostForm").innerHTML = "Error";
+                document.getElementById("addPostButton").style.display = "block";
+
             }
 
 
@@ -126,6 +128,80 @@ var APP = {
         xmlhttp.send(data);
     },
 
+    saveComment: function (post) {
+
+        xmlhttp = new XMLHttpRequest();
+        var address = "http://localhost:8080/Microblog/rest/comments";
+        xmlhttp.open('POST', address, true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.withCredentials = false;
+
+        xmlhttp.onreadystatechange = function () {
+
+            if (this.readyState === 4 && this.status === 201) {
+
+                location.reload();
+
+            } else {
+
+                document.getElementById("textarea" + post.id).innerText = "Error. Try again.";
+
+            }
+
+
+        };
+
+        var data = JSON.stringify({
+            "body": document.getElementById("textarea" + post.id).value,
+            "post": {
+                "id": post.id,
+                "dateHour": post.dateHour,
+                "title": post.title,
+                "body": post.body,
+                "user": {
+                    "username": post.user.username,
+                    "email": post.user.email,
+                    "password": post.user.password,
+                    "salt": post.user.salt,
+                    "role": post.user.role
+                }
+            },
+            "user": {
+                "username": "TestUser",
+                "email": "prova@example.com",
+                "password": "25bf926124fd43cf8a12ecf955d535781531c5617e06086ddd3305f390d9a944",
+                "salt": "9UDjgg8kZqoZXyiSczYq0w==",
+                "role": "USER"
+            }
+        });
+
+        xmlhttp.send(data);
+    },
+
+    findPostById: function (event) {
+        var postId = event.target.id;
+        var address = "http://localhost:8080/Microblog/rest/posts/" + postId
+        if (window.XMLHttpRequest) {
+            xhFindPost = new XMLHttpRequest();
+        } else {
+            xhFindPost = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
+        xhFindPost.onreadystatechange = function () {
+
+            if (this.readyState === 4 && this.status === 200) {
+
+                var post = JSON.parse(this.responseText);
+                APP.saveComment(post);
+
+            } else {
+                document.getElementById("textarea" + postId).innerText = "Error. Try again.";
+            }
+
+        }
+        xhFindPost.open("GET", address, true);
+        xhFindPost.send();
+    },
 
     init_addPost: function () {
         $("#addPost").on("click", APP.addPost);
