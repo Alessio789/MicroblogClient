@@ -7,7 +7,6 @@ var APP = {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
-
         xmlhttp.onreadystatechange = function () {
 
             if (this.readyState === 4 && this.status === 200) {
@@ -52,6 +51,9 @@ var APP = {
         xmlhttp.send();
     },
 
+
+
+
     showComments: function (address, postId) {
 
         if (window.XMLHttpRequest) {
@@ -83,11 +85,15 @@ var APP = {
         xmlhttp.send();
     },
 
+
+
     addPost: function () {
 
         document.getElementById("addPostForm").style.display = "block";
         document.getElementById("addPostButton").style.display = "none";
     },
+
+
 
     savePost: function () {
 
@@ -127,6 +133,8 @@ var APP = {
 
         xmlhttp.send(data);
     },
+
+
 
     saveComment: function (post) {
 
@@ -177,6 +185,7 @@ var APP = {
 
         xmlhttp.send(data);
     },
+
 
     findPostById: function (event) {
         var postId = event.target.id;
