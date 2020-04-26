@@ -38,7 +38,7 @@ var APP = {
                     $("#" + post.id).on("click", APP.findPostById);
 
 
-                    APP.showComments("http://localhost:8080/Microblog/rest/comments", post.id)
+                    APP.showComments("https://localhost:8443/Microblog/rest/comments", post.id)
                 }
 
             } else {
@@ -98,9 +98,10 @@ var APP = {
     savePost: function () {
 
         var xmlhttp = new XMLHttpRequest();
-        var address = "http://localhost:8080/Microblog/rest/posts";
+        var address = "https://localhost:8443/Microblog/rest/posts";
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.setRequestHeader("Authorization", localStorage.getItem("token"));
         xmlhttp.withCredentials = false;
 
         xmlhttp.onreadystatechange = function () {
@@ -123,11 +124,7 @@ var APP = {
             "title": document.getElementById("title").value,
             "body": document.getElementById("body").value,
             "user": {
-                "username": "Alessio",
-                "email": "alessio.trentin3@gmail.com",
-                "password": "03da8881bf08561c3e0d3f88bb86920956faa69ed84fe81093b6ef5592cbbc88",
-                "salt": "c/vZylHXCG1VardmjmLMhw==",
-                "role": "ADMIN"
+
             }
         });
 
@@ -139,9 +136,10 @@ var APP = {
     saveComment: function (post) {
 
         xmlhttp = new XMLHttpRequest();
-        var address = "http://localhost:8080/Microblog/rest/comments";
+        var address = "https://localhost:8433/Microblog/rest/comments";
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.setRequestHeader("Authorization", );
         xmlhttp.withCredentials = false;
 
         xmlhttp.onreadystatechange = function () {
@@ -175,11 +173,7 @@ var APP = {
                 }
             },
             "user": {
-                "username": "TestUser",
-                "email": "prova@example.com",
-                "password": "25bf926124fd43cf8a12ecf955d535781531c5617e06086ddd3305f390d9a944",
-                "salt": "9UDjgg8kZqoZXyiSczYq0w==",
-                "role": "USER"
+
             }
         });
 
@@ -189,7 +183,7 @@ var APP = {
 
     findPostById: function (event) {
         var postId = event.target.id;
-        var address = "http://localhost:8080/Microblog/rest/posts/" + postId;
+        var address = "https://localhost:8443/Microblog/rest/posts/" + postId;
         if (window.XMLHttpRequest) {
             xhFindPost = new XMLHttpRequest();
         } else {
@@ -222,7 +216,10 @@ var APP = {
 }
 
 $(document).ready(function () {
+    var token = localStorage.getItem("token");
+    localStorage.setItem("token", token);
     APP.init_addPost();
     APP.init_savePost();
-    APP.showPosts("http://localhost:8080/Microblog/rest/posts");
+    APP.showPosts("https://localhost:8443/Microblog/rest/posts");
+
 });
