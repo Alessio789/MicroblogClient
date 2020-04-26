@@ -5,6 +5,8 @@ var APP = {
         var username = document.getElementById("inputUsername").value;
         var password = document.getElementById("inputPassword").value;
 
+        localStorage.setItem("username", username);
+
         var jsonBody = JSON.stringify({
             "username": username,
             "password": password
@@ -18,7 +20,7 @@ var APP = {
 
         xmlhttp.onreadystatechange = function () {
 
-            if (this.readyState === 4 && this.status === 200) {
+            if (this.status === 200) {
 
                 localStorage.setItem("token", this.getResponseHeader("authorization"))
 

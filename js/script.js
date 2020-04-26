@@ -35,12 +35,14 @@ var APP = {
                         "</div>" +
                         "</div>";
 
-                    $("#" + post.id).on("click", APP.findPostById);
-
 
                     APP.showComments("https://localhost:8443/Microblog/rest/comments", post.id)
                 }
 
+                for (var i = 0; i <jsonPosts.length; i++) {
+                    var post = jsonPosts[i];
+                    $("#" + post.id).on("click", APP.findPostById);
+                }
             } else {
 
                 document.getElementById("postContainer").innerHTML = "loading...";
@@ -74,7 +76,7 @@ var APP = {
                     if (comment.post.id == postId) {
                         var text = commentContainer.innerHTML;
                         commentContainer.innerHTML = text +
-                            "<li class='list-group-item'> <p> <b>" + comment.user.username + " - " + comment.dateHour + "</b><br>" + comment.body + "</p> </li>";
+                            "<li class='list-group-item'> <p> <b>" + comment.user.username + " - " + comment.dateHour + "</b><br>" + comment.body + "</p> </li>"
                     }
                 }
 
@@ -124,7 +126,7 @@ var APP = {
             "title": document.getElementById("title").value,
             "body": document.getElementById("body").value,
             "user": {
-
+                "username": localStorage.getItem("username")
             }
         });
 
@@ -136,11 +138,8 @@ var APP = {
     saveComment: function (post) {
 
         xmlhttp = new XMLHttpRequest();
-        var address = "https://localhost:8433/Microblog/rest/comments";
-        xmlhttp.open('POST', address, true);
-        xmlhttp.setRequestHeader("Content-type", "application/json");
-        xmlhttp.setRequestHeader("Authorization", );
-        xmlhttp.withCredentials = false;
+        var address = "https://localhost:8443/Microblog/rest/comments";
+
 
         xmlhttp.onreadystatechange = function () {
 
@@ -173,10 +172,13 @@ var APP = {
                 }
             },
             "user": {
-
+                "username": localStorage.getItem("username")
             }
         });
 
+        xmlhttp.open('POST', address, true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.setRequestHeader("Authorization", localStorage.getItem("token"));
         xmlhttp.send(data);
     },
 
@@ -216,8 +218,6 @@ var APP = {
 }
 
 $(document).ready(function () {
-    var token = localStorage.getItem("token");
-    localStorage.setItem("token", token);
     APP.init_addPost();
     APP.init_savePost();
     APP.showPosts("https://localhost:8443/Microblog/rest/posts");
