@@ -7,7 +7,6 @@ var APP = {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
-
         xmlhttp.onreadystatechange = function () {
 
             if (this.readyState === 4 && this.status === 200) {
@@ -36,12 +35,14 @@ var APP = {
                         "</div>" +
                         "</div>";
 
-                    $("#" + post.id).on("click", APP.findPostById);
 
-
-                    APP.showComments("http://localhost:8080/Microblog/rest/comments", post.id)
+                    APP.showComments("https://localhost:8443/Microblog/rest/comments", post.id)
                 }
 
+                for (var i = 0; i <jsonPosts.length; i++) {
+                    var post = jsonPosts[i];
+                    $("#" + post.id).on("click", APP.findPostById);
+                }
             } else {
 
                 document.getElementById("postContainer").innerHTML = "loading...";
@@ -51,6 +52,9 @@ var APP = {
         xmlhttp.open("GET", address, true);
         xmlhttp.send();
     },
+
+
+
 
     showComments: function (address, postId) {
 
@@ -72,7 +76,7 @@ var APP = {
                     if (comment.post.id == postId) {
                         var text = commentContainer.innerHTML;
                         commentContainer.innerHTML = text +
-                            "<li class='list-group-item'> <p> <b>" + comment.user.username + " - " + comment.dateHour + "</b><br>" + comment.body + "</p> </li>";
+                            "<li class='list-group-item'> <p> <b>" + comment.user.username + " - " + comment.dateHour + "</b><br>" + comment.body + "</p> </li>"
                     }
                 }
 
@@ -83,18 +87,23 @@ var APP = {
         xmlhttp.send();
     },
 
+
+
     addPost: function () {
 
         document.getElementById("addPostForm").style.display = "block";
         document.getElementById("addPostButton").style.display = "none";
     },
 
+
+
     savePost: function () {
 
         var xmlhttp = new XMLHttpRequest();
-        var address = "http://localhost:8080/Microblog/rest/posts";
+        var address = "https://localhost:8443/Microblog/rest/posts";
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.setRequestHeader("Authorization", localStorage.getItem("token"));
         xmlhttp.withCredentials = false;
 
         xmlhttp.onreadystatechange = function () {
@@ -117,24 +126,20 @@ var APP = {
             "title": document.getElementById("title").value,
             "body": document.getElementById("body").value,
             "user": {
-                "username": "Alessio",
-                "email": "alessio.trentin3@gmail.com",
-                "password": "03da8881bf08561c3e0d3f88bb86920956faa69ed84fe81093b6ef5592cbbc88",
-                "salt": "c/vZylHXCG1VardmjmLMhw==",
-                "role": "ADMIN"
+                "username": localStorage.getItem("username")
             }
         });
 
         xmlhttp.send(data);
     },
 
+
+
     saveComment: function (post) {
 
         xmlhttp = new XMLHttpRequest();
-        var address = "http://localhost:8080/Microblog/rest/comments";
-        xmlhttp.open('POST', address, true);
-        xmlhttp.setRequestHeader("Content-type", "application/json");
-        xmlhttp.withCredentials = false;
+        var address = "https://localhost:8443/Microblog/rest/comments";
+
 
         xmlhttp.onreadystatechange = function () {
 
@@ -167,20 +172,20 @@ var APP = {
                 }
             },
             "user": {
-                "username": "TestUser",
-                "email": "prova@example.com",
-                "password": "25bf926124fd43cf8a12ecf955d535781531c5617e06086ddd3305f390d9a944",
-                "salt": "9UDjgg8kZqoZXyiSczYq0w==",
-                "role": "USER"
+                "username": localStorage.getItem("username")
             }
         });
 
+        xmlhttp.open('POST', address, true);
+        xmlhttp.setRequestHeader("Content-type", "application/json");
+        xmlhttp.setRequestHeader("Authorization", localStorage.getItem("token"));
         xmlhttp.send(data);
     },
 
+
     findPostById: function (event) {
         var postId = event.target.id;
-        var address = "http://localhost:8080/Microblog/rest/posts/" + postId;
+        var address = "https://localhost:8443/Microblog/rest/posts/" + postId;
         if (window.XMLHttpRequest) {
             xhFindPost = new XMLHttpRequest();
         } else {
@@ -215,5 +220,6 @@ var APP = {
 $(document).ready(function () {
     APP.init_addPost();
     APP.init_savePost();
-    APP.showPosts("http://localhost:8080/Microblog/rest/posts");
+    APP.showPosts("https://localhost:8443/Microblog/rest/posts");
+
 });
