@@ -26,9 +26,9 @@ var APP = {
 
                 location.href = "posts.html";
 
-            } else {
+            } else if (this.status === 401) {
 
-                document.getElementById("error").innerHTML = "Error. Try Again"
+                document.getElementById("error").innerHTML = "Error. The credentials entered are not correct"
 
             }
         }
