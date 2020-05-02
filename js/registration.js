@@ -19,8 +19,11 @@ var APP = {
     addUser: function (user) {
 
         if (window.XMLHttpRequest) {
+
             xmlhttp = new XMLHttpRequest();
+
         } else {
+
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 

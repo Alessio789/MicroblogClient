@@ -49,7 +49,21 @@
   #addPostForm {
     display: none;
   }
-  
+
+  #logoutButton {
+    display: none;
+  }
+
+  .error {
+    display: none;
+    font-size: 20px;
+    color: red
+  }
+
+  #errorPost {
+    display: none;
+  }
+
 @font-face {
     font-family: 'Century Gothic';
     src: url('font/CenturyGothic-Bold.woff2') format('woff2'),

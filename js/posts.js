@@ -2,8 +2,11 @@ var APP = {
     showPosts: function (address) {
 
         if (window.XMLHttpRequest) {
+
             xmlhttp = new XMLHttpRequest();
+
         } else {
+
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
@@ -18,9 +21,12 @@ var APP = {
 
                     var post = jsonPosts[i];
                     var text = postContainer.innerHTML;
+
                     if (text == undefined || text == "loading...") {
+
                         text = "";
                     }
+
                     postContainer.innerHTML = text +
                         "<div class='card'>" +
                         "<h5 class='card-header'>" + post.user.username + "'s post - " + post.dateHour + "</h5>" +
@@ -31,6 +37,7 @@ var APP = {
                         "<ul class='list-group list-group-flush' id='ul" + post.id + "'></ul>" +
                         "<div class='card-body'>" +
                         "<textarea name=\"body\" id='textarea" + post.id + "' rows=\"2\" cols=\"40\"></textarea> <br>" +
+                        "<p class='error' id='errorComment" + post.id + "'>Error. You don't have permission to perform this operation</p>" +
                         "<button type='submit' class='btn btn-primary' id='" + post.id + "' name='comment'>Comment</button>" +
                         "</div>" +
                         "</div>";
@@ -59,8 +66,11 @@ var APP = {
     showComments: function (address, postId) {
 
         if (window.XMLHttpRequest) {
+
             xmlhttp = new XMLHttpRequest();
+
         } else {
+
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
@@ -71,10 +81,15 @@ var APP = {
                 var jsonComments = JSON.parse(this.responseText);
                 var commentContainer = document.getElementById("ul" + postId);
 
+
                 for (var i = 0; i < jsonComments.length; i++) {
+
                     var comment = jsonComments[i];
+
                     if (comment.post.id == postId) {
+
                         var text = commentContainer.innerHTML;
+
                         commentContainer.innerHTML = text +
                             "<li class='list-group-item'> <p> <b>" + comment.user.username + " - " + comment.dateHour + "</b><br>" + comment.body + "</p> </li>"
                     }
@@ -99,8 +114,17 @@ var APP = {
 
     savePost: function () {
 
-        var xmlhttp = new XMLHttpRequest();
+        if (window.XMLHttpRequest) {
+
+            xmlhttp = new XMLHttpRequest();
+
+        } else {
+
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
         var address = "https://localhost:8443/Microblog/rest/posts";
+
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.setRequestHeader("Authorization", sessionStorage.getItem("token"));
@@ -112,11 +136,16 @@ var APP = {
 
                 location.reload();
 
-            } else {
+            } else if (this.status === 403) {
 
-                document.getElementById("addPostForm").innerHTML = "Error";
+                document.getElementById("addPostForm").style.display = "none";
+
+                document.getElementById("errorPost").style.display = "block";
                 document.getElementById("addPostButton").style.display = "block";
 
+            } else {
+
+                document.getElementById("addPostForm").innerHTML = "loading...";
             }
 
 
@@ -137,7 +166,15 @@ var APP = {
 
     saveComment: function (post) {
 
-        xmlhttp = new XMLHttpRequest();
+        if (window.XMLHttpRequest) {
+
+            xmlhttp = new XMLHttpRequest();
+
+        } else {
+
+            xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
+        }
+
         var address = "https://localhost:8443/Microblog/rest/comments";
 
 
@@ -147,12 +184,12 @@ var APP = {
 
                 location.reload();
 
-            } else {
+            } else if (this.status === 403) {
 
-                document.getElementById("textarea" + post.id).innerText = "Error. Try again.";
+                document.getElementById("textarea" + post.id).style.display = "none";
+                document.getElementById("errorComment" + post.id).style.display = "block";
 
             }
-
 
         };
 
@@ -186,9 +223,13 @@ var APP = {
     findPostById: function (event) {
         var postId = event.target.id;
         var address = "https://localhost:8443/Microblog/rest/posts/" + postId;
+
         if (window.XMLHttpRequest) {
+
             xhFindPost = new XMLHttpRequest();
+
         } else {
+
             xhFindPost = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
