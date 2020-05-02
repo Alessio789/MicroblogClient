@@ -5,7 +5,7 @@ var APP = {
         var username = document.getElementById("inputUsername").value;
         var password = document.getElementById("inputPassword").value;
 
-        localStorage.setItem("username", username);
+        sessionStorage.setItem("username", username);
 
         var jsonBody = JSON.stringify({
             "username": username,
@@ -22,7 +22,7 @@ var APP = {
 
             if (this.status === 200) {
 
-                localStorage.setItem("token", this.getResponseHeader("authorization"))
+                sessionStorage.setItem("token", this.getResponseHeader("authorization"))
 
                 location.href = "posts.html";
 

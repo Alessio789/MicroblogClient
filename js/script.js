@@ -103,7 +103,7 @@ var APP = {
         var address = "https://localhost:8443/Microblog/rest/posts";
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
-        xmlhttp.setRequestHeader("Authorization", localStorage.getItem("token"));
+        xmlhttp.setRequestHeader("Authorization", sessionStorage.getItem("token"));
         xmlhttp.withCredentials = false;
 
         xmlhttp.onreadystatechange = function () {
@@ -126,7 +126,7 @@ var APP = {
             "title": document.getElementById("title").value,
             "body": document.getElementById("body").value,
             "user": {
-                "username": localStorage.getItem("username")
+                "username": sessionStorage.getItem("username")
             }
         });
 
@@ -172,13 +172,13 @@ var APP = {
                 }
             },
             "user": {
-                "username": localStorage.getItem("username")
+                "username": sessionStorage.getItem("username")
             }
         });
 
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
-        xmlhttp.setRequestHeader("Authorization", localStorage.getItem("token"));
+        xmlhttp.setRequestHeader("Authorization", sessionStorage.getItem("token"));
         xmlhttp.send(data);
     },
 
