@@ -35,7 +35,7 @@ var APP = {
             }
         }
 
-        xmlhttp.open("POST", "https://localhost:8443/Microblog/rest/users", true);
+        xmlhttp.open("POST", "https://localhost:8443/Microblog/rest/v1/users", true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
         xmlhttp.send(user);
     },

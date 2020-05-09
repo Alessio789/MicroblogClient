@@ -43,7 +43,7 @@ var APP = {
                         "</div>";
 
 
-                    APP.showComments("https://localhost:8443/Microblog/rest/comments", post.id)
+                    APP.showComments("https://localhost:8443/Microblog/rest/v1/comments", post.id)
                 }
 
                 for (var i = 0; i <jsonPosts.length; i++) {
@@ -123,7 +123,7 @@ var APP = {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
-        var address = "https://localhost:8443/Microblog/rest/posts";
+        var address = "https://localhost:8443/Microblog/rest/v1/posts";
 
         xmlhttp.open('POST', address, true);
         xmlhttp.setRequestHeader("Content-type", "application/json");
@@ -175,7 +175,7 @@ var APP = {
             xmlhttp = new ActiveXObject("Microsoft.XMLHTTP");
         }
 
-        var address = "https://localhost:8443/Microblog/rest/comments";
+        var address = "https://localhost:8443/Microblog/rest/v1/comments";
 
 
         xmlhttp.onreadystatechange = function () {
@@ -222,7 +222,7 @@ var APP = {
 
     findPostById: function (event) {
         var postId = event.target.id;
-        var address = "https://localhost:8443/Microblog/rest/posts/" + postId;
+        var address = "https://localhost:8443/Microblog/rest/v1/posts/" + postId;
 
         if (window.XMLHttpRequest) {
 
@@ -261,6 +261,6 @@ var APP = {
 $(document).ready(function () {
     APP.init_addPost();
     APP.init_savePost();
-    APP.showPosts("https://localhost:8443/Microblog/rest/posts");
+    APP.showPosts("https://localhost:8443/Microblog/rest/v1/posts");
 
 });
